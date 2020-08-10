@@ -22,12 +22,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
-import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.jmeter.util.JMeterUtils;
@@ -40,7 +35,7 @@ import com.github.weisj.darklaf.icons.ThemedSVGIcon;
  * Splash Screen
  * @since 3.2
  */
-public class SplashScreen extends JWindow {
+public class SplashScreen extends JDialog {
     private static final Logger log = LoggerFactory.getLogger(SplashScreen.class);
 
     private static final long serialVersionUID = 1L;
@@ -50,9 +45,12 @@ public class SplashScreen extends JWindow {
      * Constructor
      */
     public SplashScreen() {
-        setLayout(new BorderLayout());
-        add(loadLogo(), BorderLayout.CENTER);
-        add(progressBar, BorderLayout.SOUTH);
+        setUndecorated(true);
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane.add(loadLogo(), BorderLayout.CENTER);
+        contentPane.add(progressBar, BorderLayout.SOUTH);
+        setContentPane(contentPane);
         pack();
         setLocationRelativeTo(null);
     }
@@ -91,7 +89,7 @@ public class SplashScreen extends JWindow {
     public void showScreen() {
         SwingUtilities.invokeLater(() -> {
             setVisible(true);
-            setAlwaysOnTop(true);
+            toFront();
         });
     }
 
